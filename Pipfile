@@ -1,0 +1,13 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+waf-lib = {editable = true,git = "https://gitlab.com/robons/waf.git"}
+idpd-build = {editable = true,path = "."}
+
+[requires]
+python_version = "3.9"

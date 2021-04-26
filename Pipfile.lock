@@ -1,0 +1,30 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "c7de7f55b3bc5144329eb8d1b6b6c063a97205e857e16f3a640c4d603961a77e"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.9"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "idpd-build": {
+            "editable": true,
+            "path": "."
+        },
+        "waf-lib": {
+            "editable": true,
+            "git": "https://gitlab.com/robons/waf.git",
+            "ref": "6fa19e8d445f41cf03aa5e941a693edd606c0a92"
+        }
+    },
+    "develop": {}
+}
