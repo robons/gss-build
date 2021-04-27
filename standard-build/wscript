@@ -3,12 +3,15 @@ import waflib.Node
 from waflib.Build import BuildContext
 from waflib.Configure import ConfigurationContext
 from waflib.Context import Context
-from waflib.Node import Node
+from waflib.Node import Node, Nod3
 from typing import List
 
 import idpdbuild.Build
 import idpdbuild.Configure
 from idpdbuild.DuplicateFileTask import DuplicateFileTask
+from idpdbuild.Csv2RdfTask import Csv2RdfTask
+
+Csv2RdfTask.register_task_with_file_extensions()
 
 
 def configure(ctx: ConfigurationContext):
@@ -21,9 +24,7 @@ def step_one(ctx: Context):
 
 def build(bld: BuildContext):
     idpdbuild.Build.build(bld)
-    code_lists: List[Node] = bld.path.ant_glob("codelists/*.csv")
+    code_lists: List[Node] = bld.path.ant_glob("codelists/*.csv-metadata.json")
     print(code_lists)
     for code_list in code_lists:
-        bld.add_to_group(DuplicateFileTask(bld, code_list))
-
-    # bld(SecondTask(env=bld.env.derive()))
+        bld(source=code_list)
