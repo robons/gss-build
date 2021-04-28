@@ -24,7 +24,7 @@ pipenv run waf-light clean
 
 [Waf](https://waf.io) is primarily distributed as a python file which contains compressed source code which is expanded on run. This approach isn't a great one when we want to debug what is going wrong with builds. 
 
-As a result, we're currently using the `waf-light` script contained in out fork of the [waf repo](https://gitlab.com/robons/waf).
+As a result, we're currently using the `waf-light` script contained in our fork of the [waf repo](https://gitlab.com/robons/waf).
 
 #### waf-fork
 Our fork of the waf repo is identical to the original, exepect for the fact that there is a [Setup.py](https://gitlab.com/robons/waf/-/blob/master/setup.py) file placed in the top directory to allow the repo to be installed with `pip install -e git+...`. 
