@@ -14,15 +14,15 @@ class IdpdTaskBase(Task):
     outputs: List[Nod3]
 
     name: str
-    classHash: bytes
 
     def __init__(self, c: ClassVar,name: str, env):
         Task.__init__(self, env=env)
         self.name = name
 
         # Ensure that the task is run again when the task's source code changes.
-        self.classHash = hashlib.md5(inspect.getsource(c).encode()).digest()
-        self.vars.append(self.classHash)
+        class_hierarchy_code = \
+            str.join(",", [inspect.getsource(a) for a in inspect.getmro(c) if "idpdbuild" in str(a)]).encode()
+        self.hcode = hashlib.md5(class_hierarchy_code).digest()
 
     def exec_commands(self, commands: List[str]) -> int:
         for command in commands:
