@@ -19,6 +19,8 @@ class IdpdTaskBase(Task):
     def __init__(self, c: ClassVar,name: str, env):
         Task.__init__(self, env=env)
         self.name = name
+
+        # Ensure that the task is run again when the task's source code changes.
         self.classHash = hashlib.md5(inspect.getsource(c).encode()).digest()
         self.vars.append(self.classHash)
 
