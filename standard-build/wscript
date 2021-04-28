@@ -1,30 +1,20 @@
 #!/usr/bin/python
-import waflib.Node
 from waflib.Build import BuildContext
 from waflib.Configure import ConfigurationContext
-from waflib.Context import Context
-from waflib.Node import Node, Nod3
+from waflib.Node import Node
 from typing import List
 
 import idpdbuild.Build
 import idpdbuild.Configure
-from idpdbuild.DuplicateFileTask import DuplicateFileTask
-from idpdbuild.Csv2RdfTask import Csv2RdfTask
-
-Csv2RdfTask.register_task_with_file_extensions()
+from idpdbuild.csvw.Csv2RdfTask import Csv2RdfTask
+from idpdbuild.csvw.CsvLintTask import CsvLintTask
 
 
 def configure(ctx: ConfigurationContext):
     idpdbuild.Configure.configure(ctx)
 
 
-def step_one(ctx: Context):
-    print(f"Running step one in {ctx.path}")
-
-
 def build(bld: BuildContext):
-    idpdbuild.Build.build(bld)
     code_lists: List[Node] = bld.path.ant_glob("codelists/*.csv-metadata.json")
-    print(code_lists)
-    for code_list in code_lists:
-        bld(source=code_list)
+    CsvLintTask.register_tasks(bld, code_lists)
+    Csv2RdfTask.register_tasks(bld, code_lists)

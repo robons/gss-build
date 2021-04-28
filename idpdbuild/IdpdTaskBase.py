@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 from typing import List
 
@@ -10,10 +11,17 @@ class IdpdTaskBase(Task):
     inputs: List[Nod3]
     outputs: List[Nod3]
 
+    name: str
+
+    def __init__(self, name: str, env):
+        Task.__init__(self, env=env)
+        self.name = name
+
     def exec_commands(self, commands: List[str]) -> int:
         for command in commands:
             response = self.exec_command(command)
             if response != 0:
+                print(f"({self.name}) ERROR: Failed when running command \"{command}\"", file=sys.stderr)
                 return response
 
         return 0
@@ -48,3 +56,10 @@ class IdpdTaskBase(Task):
     def get_commands_copy_output_files_from(self, from_dir: str) -> List[str]:
         return [f"cp '{Path(from_dir) / self.get_path_relative_to_build_path(f)}' '{f.abspath()}'"
                 for f in self.outputs]
+
+    def keyword(self):
+        """
+        Overrides keyword method used to print build information to the console
+        > [3/4] csv2rdf codelists/sector.csv-metadata.json
+        """
+        return self.name
