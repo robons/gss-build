@@ -17,7 +17,7 @@ class CsvLintTask(IdpdTaskBase):
             bld.add_group(group)
 
         for f in inputs:
-            task = CsvLintTask("csv-lint", bld.env.derive())
+            task = CsvLintTask(CsvLintTask, "csv-lint", bld.env.derive())
             task.set_inputs(f)
             bld.add_to_group(task, group=group)
 

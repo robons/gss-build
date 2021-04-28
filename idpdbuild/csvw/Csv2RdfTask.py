@@ -16,7 +16,7 @@ class Csv2RdfTask(IdpdTaskBase):
             bld.add_group(group)
 
         for f in inputs:
-            task = Csv2RdfTask("csv2rdf", bld.env.derive())
+            task = Csv2RdfTask(Csv2RdfTask, "csv2rdf", bld.env.derive())
             task.set_inputs(f)
             task.set_outputs(f.change_ext(".ttl"))
             bld.add_to_group(task, group=group)

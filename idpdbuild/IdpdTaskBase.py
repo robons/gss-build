@@ -1,10 +1,12 @@
+import inspect
 import sys
 from pathlib import Path
-from typing import List
+from typing import List, ClassVar
 
 from waflib.Build import BuildContext
 from waflib.Node import Nod3
 from waflib.Task import Task
+import hashlib
 
 
 class IdpdTaskBase(Task):
@@ -12,10 +14,13 @@ class IdpdTaskBase(Task):
     outputs: List[Nod3]
 
     name: str
+    classHash: bytes
 
-    def __init__(self, name: str, env):
+    def __init__(self, c: ClassVar,name: str, env):
         Task.__init__(self, env=env)
         self.name = name
+        self.classHash = hashlib.md5(inspect.getsource(c).encode()).digest()
+        self.vars.append(self.classHash)
 
     def exec_commands(self, commands: List[str]) -> int:
         for command in commands:
@@ -31,7 +36,7 @@ class IdpdTaskBase(Task):
         return node.path_from(build_context.path)
 
     def get_commands_copy_dependent_files_to(self, to_dir: str) -> List[str]:
-        all_dependent_nodes = self.inputs + self.dep_nodes
+        all_dependent_nodes = self.inputs + self.scan()[0]
 
         commands = []
 
