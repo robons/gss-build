@@ -3,11 +3,23 @@ from waflib.Build import BuildContext
 from waflib.Configure import ConfigurationContext
 from waflib.Node import Node
 from typing import List
+import inspect
+import waflib.extras.parallel_debug
+from pathlib import Path
 
 import idpdbuild.Build
 import idpdbuild.Configure
 from idpdbuild.csvw.Csv2RdfTask import Csv2RdfTask
 from idpdbuild.csvw.CsvLintTask import CsvLintTask
+
+waf_extras_directory = Path(inspect.getfile(waflib.extras.parallel_debug)).parent
+
+
+def options(ctx):
+    # `parallel_debug` outputs diagrams showing how the build progressed (as a function of time)
+    # https://waf.io/book/#_build_visualization
+    # Colours are specified in each task.
+    ctx.load('parallel_debug', tooldir=str(waf_extras_directory))
 
 
 def configure(ctx: ConfigurationContext):

@@ -4,12 +4,16 @@ from waflib import TaskGen
 from typing import List, Any
 from tempfile import TemporaryDirectory
 
+from idpdbuild import TaskColours
 from idpdbuild.IdpdTaskBase import IdpdTaskBase
 from .CsvWHelpers import get_dependent_files_for_metadata
 
 
 @TaskGen.after("CsvLintTask")
 class Csv2RdfTask(IdpdTaskBase):
+
+    color = TaskColours.GREEN
+
     @staticmethod
     def register_tasks(bld: BuildContext, inputs: List[Nod3], group="CSV2RDF"):
         if group not in bld.groups:
@@ -33,6 +37,7 @@ class Csv2RdfTask(IdpdTaskBase):
     def run(self) -> int:
         file_in = self.inputs[0]
         file_out = self.outputs[0]
+        file_in.h_file()
         with TemporaryDirectory() as temp_dir:
             commands = self.get_commands_copy_dependent_files_to(temp_dir)
             commands.append(

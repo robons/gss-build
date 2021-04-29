@@ -4,6 +4,7 @@ from typing import List, Any
 from tempfile import TemporaryDirectory
 from waflib import TaskGen
 
+from idpdbuild import TaskColours
 from idpdbuild.IdpdTaskBase import IdpdTaskBase
 from .CsvWHelpers import get_dependent_files_for_metadata
 from .Csv2RdfTask import Csv2RdfTask
@@ -11,6 +12,9 @@ from .Csv2RdfTask import Csv2RdfTask
 
 @TaskGen.before(Csv2RdfTask.__name__)
 class CsvLintTask(IdpdTaskBase):
+
+    color = TaskColours.YELLOW
+
     @staticmethod
     def register_tasks(bld: BuildContext, inputs: List[Nod3], group="csv-lint"):
         if group not in bld.groups:
@@ -20,6 +24,7 @@ class CsvLintTask(IdpdTaskBase):
             task = CsvLintTask(CsvLintTask, "csv-lint", bld.env.derive())
             task.set_inputs(f)
             bld.add_to_group(task, group=group)
+
 
     def scan(self) -> (List[Nod3], List[Any]):
         """

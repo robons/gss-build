@@ -1,0 +1,15 @@
+"""
+Colours are defined by `colors_lst` in https://gitlab.com/ita1024/waf/-/blob/master/waflib/Logs.py#L36
+"""
+
+BOLD = "BOLD"
+RED = "RED"
+GREEN = "GREEN"
+YELLOW = "YELLOW"
+PURPLE = "PINK"
+BLUE = "BLUE"
+CYAN = "CYAN"
+GREY = "GREY"
+NORMAL = "NORMAL"
+CURSOR_ON = "cursor_on"
+CURSOR_OFF = "cursor_off"
